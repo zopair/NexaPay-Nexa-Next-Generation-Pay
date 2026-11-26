@@ -97,3 +97,57 @@ https://zopair.github.io/NexaPay-Nexa-Next-Generation-Pay/
 python render_demo.py
 bash build_video.sh
 ```
+
+
+## Technical Setup & Verification
+
+The current landing page is a static `index.html` with inline CSS/JavaScript and locally tracked video/screenshots. It requires no runtime package installation to preview:
+
+```bash
+git clone https://github.com/zopair/NexaPay-Nexa-Next-Generation-Pay.git
+cd NexaPay-Nexa-Next-Generation-Pay
+python -m http.server 8000
+```
+
+Open `http://localhost:8000/`. The Pages workflow copies only the root `index.html` to the site artifact. The separate demo-video workflow uses Python Pillow and FFmpeg to regenerate the MP4.
+
+**Observed CI / workflow boundaries:**
+
+- Static Pages deployment and demo-video build runs on 11 November 2026 completed successfully; the later observed Pages deployments on 22 November 2026 also succeeded.
+- The current `.github/workflows/ci.yml` calls `npm install`, `npm test`, and `npm run build`, but the current repository tree contains no `package.json`. Treat that CI definition as stale and do not rely on its historical green result as a current reproducible test.
+- No automated tests or package scripts are present in the current tree.
+- `.github/workflows/build-demo-video.yml` has `contents: write` and commits regenerated video directly to `main`; it is not a PR-based review workflow.
+
+## Proof of Concept & Enterprise Customization Readiness
+
+**Status: Static proposal and demonstration interface only.** The bilingual wallet concept, fictional EGP/USD balances, sample transaction history, illustrative FX conversion, pricing/offer copy, and 18-second demo video are present. No bank account, virtual IBAN, remittance, custody, FX conversion, InstaPay, IPN, payment, or settlement service is integrated.
+
+| Area | Current state |
+|---|---|
+| Responsive Arabic-first UI | Implemented as static HTML/CSS/JavaScript |
+| Demo account balances and transactions | Fictional display data |
+| FX conversion | Local arithmetic simulation using illustrative rate |
+| Purchase / business offer | Gumroad link and proposal copy only |
+| Banking / remittance / payment integration | Not implemented |
+| Regulatory approval / bank partnership | Not evidenced; no endorsement claimed |
+| Demo video | Tracked MP4; reproducible Pillow/FFmpeg build workflow |
+| Pages deployment | Successful historical runs observed |
+| Automated tests | None found in current tree |
+| Current npm CI | Stale: references absent `package.json` |
+| IP declaration | `docs/IP_DECLARATION.md` references a different project, Abid Gateway, and contains uncompleted declarant placeholders; it is not a NexaPay rights declaration |
+| Project license | No root `LICENSE` file present in the reviewed tree |
+
+### Readiness gates
+
+1. Keep all financial values and conversion rates explicitly marked as illustrative until a licensed bank partner supplies approved product terms and pricing.
+2. Obtain qualified Egyptian legal/regulatory review and written bank-partner approval before any account, remittance, payment, custody, or FX service is described as available.
+3. Replace the copied `docs/IP_DECLARATION.md` template with a NexaPay-specific, correctly completed and legally reviewed declaration before relying on it as project evidence.
+4. Reconcile the current npm CI workflow with the static-only repository: either add a real package/test setup or replace it with static HTML validation.
+5. Change demo-video automation to create an artifact or PR rather than committing directly to `main`, if owner review is required before modifying the published asset.
+6. Select and add a project license, while preserving FFmpeg/Pillow and media licensing obligations.
+
+## Intellectual Property & Authorship
+
+Public project attribution: **Aly Hussein Zopair (علي حسين زبير ALY HUSSEIN ZOPAIR)**.
+
+The existing Arabic rights statement in this README is preserved verbatim. The separate `docs/IP_DECLARATION.md` currently names **Abid Gateway**, not NexaPay, and contains blank declarant/signature fields; it must not be presented as a completed NexaPay ownership declaration. Git history and timestamp records are supporting provenance evidence, not a substitute for a signed legal declaration or independent legal advice.
